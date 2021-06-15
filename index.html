@@ -1,0 +1,74 @@
+<!doctype html>
+
+<html lang="en" style="height: 100%;">
+
+<head>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="index.css">
+
+  <script src="js/requestPhoto.js"></script>
+
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>InstantPhoto</title>
+
+
+
+</head>
+
+<body onload="ServidorLevantado()" style="text-align: center;  height: 100%;">
+
+
+
+  <div id="arrowDown" style="display: none;">
+    <span><h1 id="h1Down" style="color: white;text-shadow: 2px 2px 4px #000000;margin-top: 50%;position: absolute;right: 5%;"></h1></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div id="arrowUp" style="display: none;">
+    <span><h1 id="h1Up" style="color: white;text-shadow: 2px 2px 4px #000000;"></h1></span>
+    <span></span>
+    <span></span>
+  </div>
+
+
+
+
+
+  <input id="file-input" type="file" name="name" style="display: none" onchange="addPhoto()" />
+  <h1 id="noMoreImg" style="position: absolute; top: 50%; display: none; right: 0; left: 0;">No
+    more files to load</h1>
+  <div class="loader" id="loader-2">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  </div>
+  <div style="overflow: hidden;height: 100%;width: 100%;position: absolute;">
+    <div id="animTarget" style="width: 100%; position: absolute;height: 50%; background: green;z-index: 4;">
+      <h1 style="bottom: 0;position: absolute; left: 0; right:0;">LIKE</h1>
+    </div>
+    <div id="animTarget2" style="width: 100%; position: absolute;height: 50%; background: rgb(221, 19, 86);z-index: 4;">
+      <h1>DISLIKE</h1>
+    </div>
+  </div>
+  <div id="DivPhotos"
+    style="height: 100%; width: 100%; display: flex; position: relative; float: left; text-align: center;">
+  </div>
+</body>
+
+</html>
