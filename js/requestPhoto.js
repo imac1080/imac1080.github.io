@@ -122,11 +122,22 @@ function PasarFoto(img) {
     document.getElementById("h1Up").textContent = fotosArray[index].votes + 1;
     timeouts.push(setTimeout(() => document.getElementById("arrowUp").style.display = "block", 100));
     timeouts.push(setTimeout(() => document.getElementById("arrowUp").style.display = "none", 2100));
+    
+    document.getElementById("DivUpHint").style.display="none";
+    timeouts.push(setTimeout(() => document.getElementById("DivUpHint").style.display="block", 100));   
+    timeouts.push(setTimeout(() => document.getElementById("DivUpHint").style.display="none", 2000)); 
+    setTimeout(() => document.getElementById("DivUpHint").style.zIndex=0, 2000);
   } else {
     document.getElementById("arrowDown").style.display = "none";
     document.getElementById("h1Down").textContent = fotosArray[index].votes - 1;
     timeouts.push(setTimeout(() => document.getElementById("arrowDown").style.display = "block", 100));
     timeouts.push(setTimeout(() => document.getElementById("arrowDown").style.display = "none", 2000));
+    
+    document.getElementById("DivDownHint").style.display="none";
+    timeouts.push(setTimeout(() => document.getElementById("DivDownHint").style.display="block", 100));    
+    timeouts.push(setTimeout(() => document.getElementById("DivDownHint").style.display="none", 2000)); 
+    setTimeout(() => document.getElementById("DivDownHint").style.zIndex=0, 2000);
+    
 
   }
 
