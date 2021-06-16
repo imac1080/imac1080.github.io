@@ -52,7 +52,7 @@ async function BuscarFoto() {
         if (json2.length != 0) {
           var image = new Image();
           var divimg = document.createElement('div');
-          image.style = "box-shadow: 10px 10px grey;width: 100%; max-width: 1000pt; height: max-content; min-height: 20%; margin: auto; max-height: 100%; position: absolute; left: 0; right: 0; top: 0; bottom: 0;";
+          image.style = "box-shadow: 10px 10px grey; max-width: 100%; min-width: 20%; height: max-content; min-height: 20%; margin: auto; max-height: 100%; position: absolute; left: 0; right: 0; top: 0; bottom: 0;";
           image.src = json2[0].formato + json2[0].fotoid;
           image.setAttribute('id', json2[0]._id);
           divimg.style = "display: flex; position: relative; align-self: center; width: 100%;height: 100%;"
