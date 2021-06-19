@@ -1,4 +1,4 @@
-var webHeroku = "http://localhost:8002";
+var webHeroku = "https://instantphoto.herokuapp.com";
 
 $(function () {
 })
@@ -42,7 +42,6 @@ function ServidorLevantado() {
     });
 }
 async function BuscarFoto() {
-        setTimeout(() => document.getElementById("animTarget").className = "hide", 1000);
   for (var i = 0; i < fotosArray.length; i++) {
     await fetch(webHeroku + '/buscarFoto', {
       method: 'POST',
