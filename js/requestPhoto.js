@@ -99,7 +99,9 @@ async function BuscarFoto() {
 
 
 function GetAllimg() {
-  document.getElementById("btnReload").classList.add("disabled");
+  document.getElementById("btnReload").classList.add("disabled");  
+  document.getElementById("loader-2").style.display = "block";
+  document.getElementById("noMoreImg").style.display = "none";
   fotosArrayReset = true;
   var count = document.getElementById("DivPhotos").childElementCount;
   for (let index = 0; index < count; index++) {
