@@ -5,6 +5,7 @@ $(function () {
 var fotosArray;
 var fotosArrayFullLoad = false;
 function ServidorLevantado() {
+        setTimeout(() => document.getElementById("animTarget").className = "hide", 1000);
   fetch(webHeroku + '/buscarFotos', {
     method: 'GET'
   })
@@ -84,7 +85,6 @@ async function BuscarFoto() {
           //console.log(fotosArray)
         }
 
-        setTimeout(() => document.getElementById("animTarget").className = "hide", 1000);
 
         /*
                 var c = document.createElement('canvas');
