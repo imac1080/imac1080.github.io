@@ -1,8 +1,9 @@
-var webHeroku = "https://instantphoto.herokuapp.com";
+var webHeroku = "http://localhost:8002";
 
 $(function () {
 })
 var fotosArray;
+var fotosArrayFullLoad = false;
 function ServidorLevantado() {
   fetch(webHeroku + '/buscarFotos', {
     method: 'GET'
@@ -14,9 +15,15 @@ function ServidorLevantado() {
       //btn anadir img
       var btnAddImg = document.createElement('div');
       btnAddImg.style = 'height: 13%; display: flex; width: 100%;position: absolute;';
-      btnAddImg.innerHTML = '<div id="loader" style="display: none;align-self: center;margin-left: auto;margin-right: 1em;margin-top: 1em;"></div><button type="button" onclick="document.getElementById(' + "'file-input'" + ').click();" class="btn btn-secondary" style="z-index: 3;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px; align-self: center;display: inline-block;margin-right: 5%;margin-left: auto; margin-top: 1em;" data-toggle="tooltip" data-placement="left"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera" viewBox="0 0 16 16">' +
+      btnAddImg.innerHTML = '<div style="height: 100%; width: 100%;position: absolute;display: flex;"><div id="loader" style="display: none;align-self: center;margin-left: auto;margin-right: 1em;margin-top: 1em;"></div>' +
+
+        '<button type="button" onclick="document.getElementById(' + "'file-input'" + ').click();" class="btn btn-secondary" style="z-index: 3;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px; align-self: center;display: inline-block;margin-right: 5%;margin-left: auto; margin-top: 1em;" data-toggle="tooltip" data-placement="left"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera" viewBox="0 0 16 16">' +
         '<path d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1v6zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2z"></path>' +
-        '<path d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"></path></svg></button>'
+        '<path d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"></path></svg></button></div>' +
+
+        '<button type="button" id="btnReload" onclick="GetAllimg()" class="btn btn-secondary disabled" style="z-index: 3;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px; align-self: center;display: inline-block;margin-right: 5%;margin-left: auto; margin-top: 8em;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">' +
+        '<path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"></path><path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"></path></svg></button>'
+
       document.body.insertBefore(btnAddImg, document.body.childNodes[0])
       fotosArray = json;
       if (json.length != 0) {
@@ -61,6 +68,11 @@ async function BuscarFoto() {
           if (document.getElementById("DivPhotos").children.length != 0) {
             divimg.style.display = "none";
           }
+          if ((fotosArray.length - 1) == i) {
+            fotosArrayFullLoad = true;
+            document.getElementById("btnReload").classList.remove("disabled");
+          }
+
           document.getElementById("DivPhotos").appendChild(divimg);
           document.getElementById("loader-2").style.display = "none";
 
@@ -84,6 +96,30 @@ async function BuscarFoto() {
                 var base64String = c.toDataURL();*/
       })
   }
+}
+
+
+function GetAllimg() {
+  document.getElementById("btnReload").classList.add("disabled");
+  fotosArrayReset = true;
+  var count = document.getElementById("DivPhotos").childElementCount;
+  for (let index = 0; index < count; index++) {
+    document.getElementById("DivPhotos").removeChild(document.getElementById("DivPhotos").children[0]);
+  }
+  fetch(webHeroku + '/buscarFotosAll', {
+    method: 'GET'
+  })
+    .then(response => {
+      return response.json();
+    }).then(json => {
+      fotosArray = json;
+      if (json.length != 0) {
+        BuscarFoto();
+      } else {
+        document.getElementById("loader-2").style.display = "none";
+        document.getElementById("noMoreImg").style.display = "block";
+      }
+    });
 }
 
 var timeouts = [];
@@ -115,56 +151,70 @@ function PasarFoto(img) {
       return i;
     }
   });
-  var vote2 = 0;
-  if (img == 1) {
-    vote2 = 1;
-    document.getElementById("arrowUp").style.display = "none";
-    document.getElementById("h1Up").textContent = fotosArray[index].votes + 1;
-    timeouts.push(setTimeout(() => document.getElementById("arrowUp").style.display = "block", 100));
-    timeouts.push(setTimeout(() => document.getElementById("arrowUp").style.display = "none", 2100));
-    
-    document.getElementById("DivUpHint").style.display="none";
-    timeouts.push(setTimeout(() => document.getElementById("DivUpHint").style.display="block", 100));   
-    timeouts.push(setTimeout(() => document.getElementById("DivUpHint").style.display="none", 2000)); 
-    setTimeout(() => document.getElementById("DivUpHint").style.zIndex=0, 2000);
-  } else {
-    document.getElementById("arrowDown").style.display = "none";
-    document.getElementById("h1Down").textContent = fotosArray[index].votes - 1;
-    timeouts.push(setTimeout(() => document.getElementById("arrowDown").style.display = "block", 100));
-    timeouts.push(setTimeout(() => document.getElementById("arrowDown").style.display = "none", 2000));
-    
-    document.getElementById("DivDownHint").style.display="none";
-    timeouts.push(setTimeout(() => document.getElementById("DivDownHint").style.display="block", 100));    
-    timeouts.push(setTimeout(() => document.getElementById("DivDownHint").style.display="none", 2000)); 
-    setTimeout(() => document.getElementById("DivDownHint").style.zIndex=0, 2000);
-    
+  if (fotosArray[index].voted == "no" || fotosArray[index].voted == null) {
 
-  }
+    var vote2 = 0;
+    if (img == 1) {
+      vote2 = 1;
+      document.getElementById("arrowUp").style.display = "none";
+      document.getElementById("h1Up").textContent = fotosArray[index].votes + 1;
+      timeouts.push(setTimeout(() => document.getElementById("arrowUp").style.display = "block", 100));
+      timeouts.push(setTimeout(() => document.getElementById("arrowUp").style.display = "none", 2100));
 
+      document.getElementById("DivUpHint").style.display = "none";
+      timeouts.push(setTimeout(() => document.getElementById("DivUpHint").style.display = "block", 100));
+      timeouts.push(setTimeout(() => document.getElementById("DivUpHint").style.display = "none", 2000));
+      setTimeout(() => document.getElementById("DivUpHint").style.zIndex = 0, 2000);
+    } else {
+      document.getElementById("arrowDown").style.display = "none";
+      document.getElementById("h1Down").textContent = fotosArray[index].votes - 1;
+      timeouts.push(setTimeout(() => document.getElementById("arrowDown").style.display = "block", 100));
+      timeouts.push(setTimeout(() => document.getElementById("arrowDown").style.display = "none", 2000));
 
-  //console.log(document.getElementById("DivPhotos").children[0].children[1].id)
-
-  fetch(webHeroku + '/vote', {
-    method: 'POST',
-    body: JSON.stringify({
-      id: document.getElementById("DivPhotos").children[0].children[2].id, vote: vote2
-    }),
-    headers: {
-      "Content-Type": "application/json; charset=UTF-8"
+      document.getElementById("DivDownHint").style.display = "none";
+      timeouts.push(setTimeout(() => document.getElementById("DivDownHint").style.display = "block", 100));
+      timeouts.push(setTimeout(() => document.getElementById("DivDownHint").style.display = "none", 2000));
+      setTimeout(() => document.getElementById("DivDownHint").style.zIndex = 0, 2000);
     }
-  })
-  .then(response =>  {
-    return response.json();
-  }).then(json => {
-    //console.log(json)
+
+
+    //console.log(document.getElementById("DivPhotos").children[0].children[1].id)
+
+    fetch(webHeroku + '/vote', {
+      method: 'POST',
+      body: JSON.stringify({
+        id: document.getElementById("DivPhotos").children[0].children[2].id, vote: vote2
+      }),
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8"
+      }
+    })
+      .then(response => {
+        return response.json();
+      }).then(json => {
+        //console.log(json)
+        if (document.getElementById("DivPhotos").children.length == 1) {
+          document.getElementById("DivPhotos").removeChild(document.getElementById("DivPhotos").children[0]);
+          return;
+        }
+        document.getElementById("DivPhotos").children[1].style.display = "block";
+        document.getElementById("DivPhotos").removeChild(document.getElementById("DivPhotos").children[0]);
+      });
+    //console.log(vote2)
+  } else {
+
+    document.getElementById("arrowPass").style.display = "none";
+    document.getElementById("h1Pass").textContent = fotosArray[index].votes;
+    timeouts.push(setTimeout(() => document.getElementById("arrowPass").style.display = "block", 100));
+    timeouts.push(setTimeout(() => document.getElementById("arrowPass").style.display = "none", 2100));
+
     if (document.getElementById("DivPhotos").children.length == 1) {
       document.getElementById("DivPhotos").removeChild(document.getElementById("DivPhotos").children[0]);
       return;
     }
     document.getElementById("DivPhotos").children[1].style.display = "block";
     document.getElementById("DivPhotos").removeChild(document.getElementById("DivPhotos").children[0]);
-  });
-  //console.log(vote2)
+  }
 
 }
 
@@ -213,11 +263,11 @@ function addPhoto() {
             })
           }
           else {
-            fotosArray.push({ _id: json._id, votes:0 });
+            fotosArray.push({ _id: json._id, votes: 0 });
             //console.log(fotosArray)
             var image = new Image();
             var divimg = document.createElement('div');
-            image.style = "box-shadow: 10px 10px grey;width: 100%; max-width: 1000pt; min-height: 20%; margin: auto; max-height: 100%; position: absolute; left: 0; right: 0; top: 0; bottom: 0;";
+            image.style = "box-shadow: 10px 10px grey; max-width: 100%; min-width: 20%; min-height: 20%; margin: auto; max-height: 100%; position: absolute; left: 0; right: 0; top: 0; bottom: 0;";
             image.src = json.srcImage;
             image.setAttribute('id', json._id);
             divimg.style = "display: flex; position: relative; align-self: center; width: 100%;height: 100%;"
