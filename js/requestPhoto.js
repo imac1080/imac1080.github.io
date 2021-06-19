@@ -5,7 +5,6 @@ $(function () {
 var fotosArray;
 var fotosArrayFullLoad = false;
 function ServidorLevantado() {
-        setTimeout(() => document.getElementById("animTarget").className = "hide", 1000);
   fetch(webHeroku + '/buscarFotos', {
     method: 'GET'
   })
@@ -43,6 +42,7 @@ function ServidorLevantado() {
     });
 }
 async function BuscarFoto() {
+        setTimeout(() => document.getElementById("animTarget").className = "hide", 1000);
   for (var i = 0; i < fotosArray.length; i++) {
     await fetch(webHeroku + '/buscarFoto', {
       method: 'POST',
